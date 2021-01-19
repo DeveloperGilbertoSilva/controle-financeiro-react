@@ -10,7 +10,8 @@ export default function FormConta({adicionaConta}) {
             <form onSubmit={
                 (event) => {
                     event.preventDefault();
-                    adicionaConta({nome, descricao});
+                    var id = Math.floor(Math.random() * 10000);
+                    adicionaConta({id, nome, descricao});
                     
                     setaNome("");
                     setaDescricao("");
