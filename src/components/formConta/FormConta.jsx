@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-export default function FormConta({adicionaConta}) {
+export default function FormConta({addConta}) {
     const [nome, setaNome] = useState("");
     const [descricao, setaDescricao] = useState("");
 
@@ -11,7 +11,7 @@ export default function FormConta({adicionaConta}) {
                 (event) => {
                     event.preventDefault();
                     var id = Math.floor(Math.random() * 10000);
-                    adicionaConta({id, nome, descricao});
+                    addConta({id, nome, descricao});
                     
                     setaNome("");
                     setaDescricao("");

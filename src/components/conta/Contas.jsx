@@ -4,16 +4,29 @@ import ListaContas from '../listaContas';
 
 export default function Contas() {
     const [contas, setaContas] = useState([]);
-    const adicionaConta = (conta) => {
+
+    const addConta = (conta) => {
         let arrayContas = [];
         arrayContas.push(...contas, conta);
         setaContas(arrayContas);
     }
-    
+
+    const updateConta = (contaId, novaConta) => {
+        setaContas(prev => prev.map(contaAtual => (contaAtual.id === contaId ? novaConta : contaAtual)));
+        //console.log('atualizado');
+        //console.log(contaId);
+        //console.log(novaConta);
+    }
+
+    const deleteConta = (contaId) => {
+        const removeArr = [...contas].filter(conta => conta.id !== contaId);
+        setaContas(removeArr);
+    }
+
     return (
         <>
-            <FormConta adicionaConta={adicionaConta} />
-            <ListaContas contas={contas} />
+            <FormConta addConta={addConta} />
+            <ListaContas contas={contas} updateConta={updateConta} deleteConta={deleteConta}/>
         </>
     );
 }
