@@ -1,14 +1,22 @@
 import React,{useState} from 'react';
 import FormConta from '../formConta';
 import ListaContas from '../listaContas';
+import api from './../../services/api';
 
 export default function Contas() {
     const [contas, setaContas] = useState([]);
 
     const addConta = (conta) => {
-        let arrayContas = [];
-        arrayContas.push(...contas, conta);
-        setaContas(arrayContas);
+        // let arrayContas = [];
+        // arrayContas.push(...contas, conta);
+        
+        api.post('contas/', conta).then(response => {
+            const {data} = response;
+            setaContas(data);
+            console.log(data);
+        }).catch(err => {
+            console.log(`Ocorreu um erro durante a inserção da conta: ${err}`);
+        });
     }
 
     const updateConta = (contaId, novaConta) => {

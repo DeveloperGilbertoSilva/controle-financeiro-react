@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './ListaContas.css';
+import api from './../../services/api';
 
 export default function ListaContas({contas, updateConta, deleteConta}) {
     const [contaEdicao, editarConta] = useState({
@@ -10,12 +11,19 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
         isEditable: false
     });
 
+    const [contasApi, setaContasApi] = useState([]);
+
     
     useEffect(() => {
-        //console.log(contaEdicao);
-        
-    });
-
+        api.get('contas/').then(response => {
+            const {data} = response;
+            setaContasApi(data);
+        }).catch(err => {
+            console.error(`Ocorreu um erro ao consultar a api de contas ${err}`);
+        });
+    },[contas]);
+    
+    console.log(contasApi);
     
     return (
         <> 
@@ -29,7 +37,7 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                 </thead>
 
                 <tbody>
-                    {contas.map((conta, index) => {
+                    {contasApi.map((conta, index) => {
                         return (
                             <tr key={index}>
                                 <td onClick={() => {editarConta({id: conta.id, alvo:'nome', isEditable:true})}}>
