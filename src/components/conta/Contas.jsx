@@ -13,22 +13,29 @@ export default function Contas() {
         api.post('contas/', conta).then(response => {
             const {data} = response;
             setaContas(data);
-            console.log(data);
+            //console.log(data);
         }).catch(err => {
             console.log(`Ocorreu um erro durante a inserção da conta: ${err}`);
         });
     }
-
-    const updateConta = (contaId, novaConta) => {
-        setaContas(prev => prev.map(contaAtual => (contaAtual.id === contaId ? novaConta : contaAtual)));
-        //console.log('atualizado');
-        //console.log(contaId);
-        //console.log(novaConta);
+    
+    const updateConta = (novaConta) => {
+        api.put('contas/', novaConta).then(response => {
+            const {data} = response;
+            setaContas(data);
+        }).catch(err => {
+            console.log(`Ocorreu um erro durante a atualização da conta: ${err}`);
+        });
     }
 
     const deleteConta = (contaId) => {
-        const removeArr = [...contas].filter(conta => conta.id !== contaId);
-        setaContas(removeArr);
+        api.delete('contas/', {data: {"id": contaId}}).then(response => {
+            const {data} = response;
+            setaContas(data);
+            //console.log(data);
+        }).catch(err => {
+            console.log(`Ocorreu um erro durante a exclusão da conta: ${err}`);
+        });
     }
 
     return (

@@ -13,18 +13,28 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
 
     const [contasApi, setaContasApi] = useState([]);
 
-    
     useEffect(() => {
-        api.get('contas/').then(response => {
-            const {data} = response;
-            setaContasApi(data);
-        }).catch(err => {
-            console.error(`Ocorreu um erro ao consultar a api de contas ${err}`);
+        api.get('/contas').then(response => {
+            setaContasApi(response.data);
+        }).catch(error => {
+            console.error(`Erro ao ler contas: ${error}`);
         });
-    },[contas]);
+    }, [contas]);
+
+    useEffect(() => {
+        if (contasApi) {
+            for(var i = 0; i < contasApi.length; i++ ){
+                var nome = document.getElementsByName(`nome-${contasApi[i].id}`);
+                var descricao = document.getElementsByName(`descricao-${contasApi[i].id}`);
+                nome[0].value = contasApi[i].nome;  
+                descricao[0].value = contasApi[i].descricao;  
+                //console.log(elemento[0].value);          
+            }
+        }
+    }, [contasApi]);
     
-    console.log(contasApi);
     
+
     return (
         <> 
             <table cellSpacing="5" cellPadding="10" border="1">
@@ -40,15 +50,13 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                     {contasApi.map((conta, index) => {
                         return (
                             <tr key={index}>
-                                <td onClick={() => {editarConta({id: conta.id, alvo:'nome', isEditable:true})}}>
+                                <td onClick={() => {editarConta({id: conta.id, target:'nome', isEditable:true})}}>
                                     <input 
-                                        defaultValue={conta.nome} 
-                                        type="text" 
-                                        id={`nome${conta.id}`} 
-                                        name="nomeEdicao" 
-                                        autoFocus={contaEdicao.isEditable} 
+                                        type="text"
+                                        name={`nome-${conta.id}`}
+                                        defaultValue={conta.nome}
+                                        className="input-table"
                                         readOnly={!contaEdicao.isEditable} 
-                                        className= "input-table" 
                                         onClick={(event) => {
                                             event.target.className="input-edit";
                                         }}
@@ -59,41 +67,41 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                         }} 
                                         onKeyDown={(event) => {
                                             if(event.key === "Enter"){
-                                               updateConta(conta.id, {id: conta.id, nome: event.target.value, descricao: conta.descricao});
-                                               editarConta({isEditable: false});
-                                               event.target.className="input-table";
+                                            updateConta({id: conta.id, nome: event.target.value, descricao: conta.descricao});
+                                            editarConta({isEditable: false});
+                                            event.target.className="input-table";
                                             }
                                         }}
                                         title="Clique para alterar o conteúdo"
-                                    />
+                                        placeholder={conta.nome}
+                                    /> 
                                 </td>
 
-                                <td onClick={(event) => {editarConta({id: conta.id, alvo:'descricao', isEditable:true})}}>
+                                <td onClick={() => {editarConta({id: conta.id, target:'descricao', isEditable:true})}}>
                                     <input 
-                                        defaultValue={conta.descricao} 
-                                        type="text" 
-                                        id={`descricao${conta.id}`} 
-                                        name="descricaoEdicao" 
-                                        autoFocus={contaEdicao.isEditable} 
+                                        type="text"
+                                        name={`descricao-${conta.id}`}
+                                        defaultValue={conta.descricao}
+                                        className="input-table"
                                         readOnly={!contaEdicao.isEditable} 
-                                        className= "input-table"
                                         onClick={(event) => {
                                             event.target.className="input-edit";
                                         }}
                                         onBlur={(event) => {
                                             editarConta({isEditable: false});
-                                            event.target.value = conta.descricao
+                                            event.target.value = conta.descricao;
                                             event.target.className="input-table";
                                         }} 
                                         onKeyDown={(event) => {
                                             if(event.key === "Enter"){
-                                                updateConta(conta.id, {id: conta.id, nome: conta.nome, descricao: event.target.value});
-                                                editarConta({isEditable: false});
-                                                event.target.className="input-table";
-                                            }                                                
+                                            updateConta({id: conta.id, nome: conta.name, descricao: event.target.value});
+                                            editarConta({isEditable: false});
+                                            event.target.className="input-table";
+                                            }
                                         }}
                                         title="Clique para alterar o conteúdo"
-                                    />
+                                        placeholder={conta.descricao}
+                                        />
                                 </td>
                                 <td>
                                     <button onClick={() => {
