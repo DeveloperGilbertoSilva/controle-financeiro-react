@@ -78,11 +78,12 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                 </td>
 
                                 <td onClick={() => {editarConta({id: conta.id, target:'descricao', isEditable:true})}}>
-                                    <input 
-                                        type="text"
+                                    <textarea
                                         name={`descricao-${conta.id}`}
                                         defaultValue={conta.descricao}
-                                        className="input-table"
+                                        cols="100"
+                                        rows="10"
+                                        className="input-table textarea-descricao"
                                         readOnly={!contaEdicao.isEditable} 
                                         onClick={(event) => {
                                             event.target.className="input-edit";
@@ -101,7 +102,7 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                         }}
                                         title="Clique para alterar o conteúdo"
                                         placeholder={conta.descricao}
-                                        />
+                                    ></textarea>
                                 </td>
                                 <td>
                                     <button onClick={() => {
