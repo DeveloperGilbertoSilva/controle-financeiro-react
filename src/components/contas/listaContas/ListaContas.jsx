@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import './ListaContas.css';
-import api from './../../services/api';
+import './../../Lista.css';
+import api from './../../../services/api';
 
 export default function ListaContas({contas, updateConta, deleteConta}) {
     const [contaEdicao, editarConta] = useState({
@@ -27,8 +27,7 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                 var nome = document.getElementsByName(`nome-${contasApi[i].id}`);
                 var descricao = document.getElementsByName(`descricao-${contasApi[i].id}`);
                 nome[0].value = contasApi[i].nome;  
-                descricao[0].value = contasApi[i].descricao;  
-                //console.log(elemento[0].value);          
+                descricao[0].value = contasApi[i].descricao;    
             }
         }
     }, [contasApi]);

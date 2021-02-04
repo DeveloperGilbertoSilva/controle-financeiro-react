@@ -1,12 +1,12 @@
 import React,{useState} from 'react';
 import FormConta from '../formConta';
-import ListaContas from '../listaContas';
-import api from './../../services/api';
+import ListaContas from '../../contas/listaContas';
+import api from '../../../services/api';
 
 export default function Contas() {
     const [contas, setaContas] = useState([]);
 
-    const addConta = (conta) => {
+    const addConta = conta => {
         // let arrayContas = [];
         // arrayContas.push(...contas, conta);
         
@@ -14,13 +14,13 @@ export default function Contas() {
             const {data} = response;
             setaContas(data);
             //console.log(data);
-        }).catch(err => {
-            console.log(`Ocorreu um erro durante a inserção da conta: ${err}`);
+        }).catch(error => {
+            console.error(`Ocorreu um erro durante a inserção da conta: ${error}`);
         });
     }
     
-    const updateConta = (novaConta) => {
-        api.put('contas/', novaConta).then(response => {
+    const updateConta = conta => {
+        api.put('contas/', conta).then(response => {
             const {data} = response;
             setaContas(data);
         }).catch(err => {
@@ -28,13 +28,12 @@ export default function Contas() {
         });
     }
 
-    const deleteConta = (contaId) => {
+    const deleteConta = contaId => {
         api.delete('contas/', {data: {"id": contaId}}).then(response => {
             const {data} = response;
             setaContas(data);
-            //console.log(data);
-        }).catch(err => {
-            console.log(`Ocorreu um erro durante a exclusão da conta: ${err}`);
+        }).catch(error => {
+            console.log(`Ocorreu um erro durante a exclusão da conta: ${error}`);
         });
     }
 
