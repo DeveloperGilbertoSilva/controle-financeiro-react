@@ -21,7 +21,9 @@ export default function FormConta({addConta}) {
             <form onSubmit={
                 (event) => {
                     event.preventDefault();
-                    addConta({nome, descricao});
+                    let categoriaId = event.target.categorias.value;
+                    addConta({nome, descricao, categoriaId});
+                    //console.log({nome, descricao, categoria});
                     setaNome("");
                     setaDescricao("");
                 }
@@ -37,7 +39,7 @@ export default function FormConta({addConta}) {
                     {
                     categorias.map((categoria, index) => {
                         return (
-                            <option key={index}>
+                            <option key={index} value={categoria.id}>
                                 {
                                 categoria.nome
                             }</option>

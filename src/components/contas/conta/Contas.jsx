@@ -9,7 +9,7 @@ export default function Contas() {
     const addConta = conta => {
         // let arrayContas = [];
         // arrayContas.push(...contas, conta);
-        
+       
         api.post('contas/', conta).then(response => {
             const {data} = response;
             setaContas(data);

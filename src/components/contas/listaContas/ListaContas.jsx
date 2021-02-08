@@ -12,10 +12,16 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
     });
 
     const [contasApi, setaContasApi] = useState([]);
+    const [categorias, setaCategorias] = useState([]);
 
     useEffect(() => {
         api.get('/contas').then(response => {
             setaContasApi(response.data);
+            api.get('/categorias').then(response => {
+                setaCategorias(response.data);
+            }).catch(error => {
+                console.log(`Erro ao ler as categorias: ${error}`);
+            });
         }).catch(error => {
             console.error(`Erro ao ler contas: ${error}`);
         });
@@ -31,8 +37,15 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
             }
         }
     }, [contasApi]);
+
     
+    const nomeCategoria = conta => {
+        let categoriaFound = categorias.find(categoria => categoria.id === conta.categoriaId);
+        let index = categorias.indexOf(categoriaFound);
+        return index >= 0 ? categorias[index].nome : '';
+    };
     
+    //console.log(categorias);
 
     return (
         <> 
@@ -41,6 +54,7 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                     <tr>
                         <th>Nome da conta</th>
                         <th>Descrição</th>
+                        <th>Categoria</th>
                         <th>Ação</th>
                     </tr>
                 </thead>
@@ -103,6 +117,9 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                         placeholder={conta.descricao}
                                     ></textarea>
                                 </td>
+                               
+                                <td>{nomeCategoria(conta)}</td>
+                               
                                 <td>
                                     <button onClick={() => {
                                         deleteConta(conta.id);
