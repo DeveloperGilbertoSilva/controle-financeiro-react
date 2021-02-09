@@ -16,14 +16,16 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
 
     useEffect(() => {
         api.get('/contas').then(response => {
-            setaContasApi(response.data);
+            const {data} = response;
+            setaContasApi(data);
             api.get('/categorias').then(response => {
-                setaCategorias(response.data);
-            }).catch(error => {
-                console.log(`Erro ao ler as categorias: ${error}`);
+                let {data} = response;
+                setaCategorias(data);
+            }).catch(erro => {
+                console.log(`Erro ao ler as categorias: ${erro}`);
             });
-        }).catch(error => {
-            console.error(`Erro ao ler contas: ${error}`);
+        }).catch(erro => {
+            console.error(`Erro ao ler contas: ${erro}`);
         });
     }, [contas]);
 
