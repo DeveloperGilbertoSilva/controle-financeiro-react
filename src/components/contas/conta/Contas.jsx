@@ -26,6 +26,7 @@ export default function Contas() {
         }).catch(err => {
             console.log(`Ocorreu um erro durante a atualização da conta: ${err}`);
         });
+        //console.log("Atualização foi chamada");
     }
 
     const deleteConta = contaId => {

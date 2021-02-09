@@ -32,20 +32,14 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
             for(var i = 0; i < contasApi.length; i++ ){
                 var nome = document.getElementsByName(`nome-${contasApi[i].id}`);
                 var descricao = document.getElementsByName(`descricao-${contasApi[i].id}`);
+                //var categoria = document.getElementsByName(`categoria-${contasApi[i].id}`);
                 nome[0].value = contasApi[i].nome;  
-                descricao[0].value = contasApi[i].descricao;    
+                descricao[0].value = contasApi[i].descricao; 
+                //categoria[0].value = contasApi[i].categoriaId; 
+                
             }
         }
     }, [contasApi]);
-
-    
-    const nomeCategoria = conta => {
-        let categoriaFound = categorias.find(categoria => categoria.id === conta.categoriaId);
-        let index = categorias.indexOf(categoriaFound);
-        return index >= 0 ? categorias[index].nome : '';
-    };
-    
-    //console.log(categorias);
 
     return (
         <> 
@@ -80,7 +74,7 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                         }} 
                                         onKeyDown={(event) => {
                                             if(event.key === "Enter"){
-                                            updateConta({id: conta.id, nome: event.target.value, descricao: conta.descricao});
+                                            updateConta({id: conta.id, nome: event.target.value, descricao: conta.descricao, categoria: conta.categoriaId});
                                             editarConta({isEditable: false});
                                             event.target.className="input-table";
                                             }
@@ -108,7 +102,7 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                         }} 
                                         onKeyDown={(event) => {
                                             if(event.key === "Enter"){
-                                            updateConta({id: conta.id, nome: conta.name, descricao: event.target.value});
+                                            updateConta({id: conta.id, nome: conta.name, descricao: event.target.value, categoria: conta.categoriaId});
                                             editarConta({isEditable: false});
                                             event.target.className="input-table";
                                             }
@@ -118,7 +112,23 @@ export default function ListaContas({contas, updateConta, deleteConta}) {
                                     ></textarea>
                                 </td>
                                
-                                <td>{nomeCategoria(conta)}</td>
+                                <td>
+                                    <select 
+                                        value={conta.categoriaId}
+                                        name={`categoria-${conta.id}`}
+                                        onChange = {event => {
+                                            if (window.confirm("Essa ação irá alterar a categoria da conta, deseja continuar?"))
+                                                updateConta({id: conta.id, nome: conta.nome, descricao: conta.descricao, categoriaId: event.target.value});
+                                                event.target.style.outline = "none";
+                                        }}>
+                                        {categorias.map((categoria, index) => {
+                                            return (
+                                                <option key={index} value={categoria.id}>{categoria.nome}</option>
+                                            )
+                                        })}
+                                    </select>
+                                    {/* {nomeCategoria(conta)} */}
+                                </td>
                                
                                 <td>
                                     <button onClick={() => {
