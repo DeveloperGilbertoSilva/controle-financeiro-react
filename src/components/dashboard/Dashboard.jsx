@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import api from './../../services/api';
+import './Dashboard.css';
 
 export default function Dashboard(){
     const [contas, setaContas] = useState([]);
@@ -36,6 +37,7 @@ export default function Dashboard(){
                     <tr>
                         <th>Conta</th>
                         <th>Categoria</th>
+                        <th>Saldo</th>
                         <th>Ação</th>
                     </tr>
                 </thead>
@@ -44,8 +46,9 @@ export default function Dashboard(){
                     {contas.map((conta, index) => {
                         return (
                             <tr key={index}>
-                                <td>{conta.nome}</td>
+                                <td className="nome-conta">{conta.nome}</td>
                                 <td>{nomeCategoria(conta.categoriaId)}</td>
+                                <td>R$</td>
                                 <td>
                                     <button>Receita</button> &nbsp;&nbsp;
                                     <button>Despesa</button>
