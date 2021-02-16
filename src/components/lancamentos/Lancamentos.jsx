@@ -27,8 +27,6 @@ export default function Lancamentos() {
         return conta.nome;
     };
 
-    console.log(contas);
-
     return (
         <>
             <h1>Administração de Lançamentos</h1>

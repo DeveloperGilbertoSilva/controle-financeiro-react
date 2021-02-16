@@ -10,7 +10,7 @@ export default function Contas() {
         // let arrayContas = [];
         // arrayContas.push(...contas, conta);
        
-        api.post('contas/', conta).then(response => {
+        api.post('/contas', conta).then(response => {
             const {data} = response;
             setaContas(data);
             //console.log(data);
@@ -20,7 +20,7 @@ export default function Contas() {
     }
     
     const updateConta = conta => {
-        api.put('contas/', conta).then(response => {
+        api.put('/contas', conta).then(response => {
             const {data} = response;
             setaContas(data);
         }).catch(err => {
@@ -30,7 +30,7 @@ export default function Contas() {
     }
 
     const deleteConta = contaId => {
-        api.delete('contas/', {data: {"id": contaId}}).then(response => {
+        api.delete('/contas', {data: {"id": contaId}}).then(response => {
             const {data} = response;
             setaContas(data);
         }).catch(error => {
